@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>마이페이지</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; background-color: #f8fafc; color: #334155; }
+    h2, h3 { color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+    .section-box { background: white; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
+    th { background: #f1f5f9; }
+    .btn-danger { background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+    .btn-withdraw { background: #64748b; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; float: right; }
+    .btn-blue { background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .btn-blue:hover { background: #1d4ed8; }
+    .input-edit { padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; width: 100%; box-sizing: border-box; }
+    .status-badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.9em; background: #e2e8f0; }
+    .status-완료 { background: #dcfce7; color: #15803d; }
+    .status-배송 { background: #dbeafe; color: #1d4ed8; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>👤 마이페이지 및 회원 콘솔</h1>
+    <p><a href="/" style="font-weight: bold; color: #2563eb; text-decoration: none;">🏠 홈으로 가기</a> |
+    <a href="/products" style="font-weight: bold; color: #2563eb; text-decoration: none;">📦 쇼핑 계속하기</a></p>
+  </header>
+
+  <div class="section-box">
+    <h3>🔒 내 계정 정보 요약</h3>
+    <p><strong>아이디(변경불가):</strong> <span style="color:#0f172a; font-weight: bold;"><%= user.username %></span></p>
+    <p><strong>현재 성명:</strong> <%= user.name || '미등록' %>님</p>
+    <p><strong>권한등급:</strong> <%= user.role === 'admin' ? '👑 관리자' : '일반회원' %></p>
+
+    <form action="/user/withdraw" method="POST" onsubmit="return confirm('정말 회원 탈퇴를 진행하시겠습니까? 데이터는 즉시 비활성화됩니다.');">
+      <button type="submit" class="btn-withdraw">회원 탈퇴하기</button>
+    </form>
+    <div style="clear: both;"></div>
+  </div>
+
+  <div class="section-box" style="border-top: 4px solid #2563eb;">
+    <h3>🛠️ 회원 정보 수정하기</h3>
+    <form action="/mypage/update" method="POST">
+      <table style="margin-bottom: 15px;">
+        <tr>
+          <th style="width: 20%;">성명 / 이름</th>
+          <td>
+            <input type="text" name="name" class="input-edit" value="<%= user.name || '' %>" placeholder="홍길동" required>
+          </td>
+        </tr>
+        <tr>
+          <th>연락처 (휴대폰)</th>
+          <td>
+            <input type="text" name="phone" class="input-edit" value="<%= user.phone || '' %>" placeholder="010-1234-5678">
+          </td>
+        </tr>
+        <tr>
+          <th>기본 배송 주소</th>
+          <td>
+            <input type="text" name="address" class="input-edit" value="<%= user.address || '' %>" placeholder="서울특별시 강남구 테헤란로 123">
+          </td>
+        </tr>
+      </table>
+      <div style="text-align: right;">
+        <button type="submit" class="btn-blue">💾 정보 수정 완료</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="section-box">
+    <h3>❤️ 내 위시리스트</h3>
+    <% if (wishItems.length === 0) { %>
+      <p style="color: #94a3b8;">찜한 상품이 없습니다.</p>
+    <% } else { %>
+      <table>
+        <tr>
+          <th>상품</th>
+          <th>가격</th>
+          <th>관리</th>
+        </tr>
+        <% wishItems.forEach(item => { %>
+          <tr>
+            <td><%= item.emoji %> <a href="/products/detail/<%= item.id %>"><strong><%= item.name %></strong></a></td>
+            <td>₩<%= item.price.toLocaleString() %></td>
+            <td>
+              <form action="/mypage/wish/delete" method="POST" style="display:inline;">
+                <input type="hidden" name="wish_id" value="<%= item.wish_id %>">
+                <button type="submit" class="btn-danger">삭제</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </table>
+    <% } %>
+  </div>
+
+  <div class="section-box">
+    <h3>📜 내 주문 내역</h3>
+    <% if (orders.length === 0) { %>
+      <p style="color: #94a3b8;">주문하신 내역이 없습니다.</p>
+    <% } else { %>
+      <table>
+        <tr>
+          <th>주문 일시</th>
+          <th>수령인</th>
+          <th>배송 주소</th>
+          <th>총 결제 금액</th>
+          <th>주문 상태</th>
+        </tr>
+        <% orders.forEach(order => { %>
+          <tr>
+            <td><%= order.created_at %></td>
+            <td><%= order.receiver_name %></td>
+            <td><%= order.delivery_address %></td>
+            <td style="color:#e11d48; font-weight:bold;">₩<%= order.total_price.toLocaleString() %></td>
+            <td>
+              <span class="status-badge status-<%= order.status.substring(0,2) %>"><%= order.status %></span>
+            </td>
+          </tr>
+        <% }) %>
+      </table>
+    <% } %>
+  </div>
+
+</body>
+</html>

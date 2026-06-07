@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔓 로그인</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            width: 360px;
+        }
+        h2 {
+            text-align: center;
+            color: #1e293b;
+            margin-top: 0;
+            margin-bottom: 28px;
+            font-size: 1.6em;
+            letter-spacing: -0.5px;
+        }
+        .input-group {
+            margin-bottom: 18px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #475569;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 0.95em;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .btn-submit {
+            background: #2563eb;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background: #1d4ed8;
+        }
+        .find-links {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.85em;
+            color: #94a3b8;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+        }
+        .find-links a {
+            color: #4b5563;
+            text-decoration: none;
+            margin: 0 6px;
+        }
+        .find-links a:hover {
+            text-decoration: underline;
+            color: #1e293b;
+        }
+        .register-box {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        .register-box a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .register-box a:hover {
+            text-decoration: underline;
+        }
+        /* 🏠 홈으로 돌아가기 전용 세련된 스타일 레이아웃 정의 */
+        .home-box {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.85em;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+        }
+        .home-box a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+        .home-box a:hover {
+            color: #0f172a;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>🔓 로그인</h2>
+
+    <form action="/user/login" method="POST">
+        <div class="input-group">
+            <label for="username">아이디</label>
+            <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" required autocomplete="username">
+        </div>
+        <div class="input-group">
+            <label for="password">비밀번호</label>
+            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-submit">로그인</button>
+    </form>
+
+    <div class="find-links">
+        <a href="/user/find-id">🔍 아이디 찾기</a> |
+        <a href="/user/find-pw">🔑 비밀번호 찾기</a>
+    </div>
+
+    <div class="register-box">
+        <span style="color: #64748b; font-size: 0.85em;">아직 회원이 아니신가요?</span>
+        <a href="/user/register" style="margin-left: 5px;">🌱 회원가입</a>
+    </div>
+
+    <div class="home-box">
+        <a href="/">🏠 쇼핑몰 홈으로 돌아가기</a>
+    </div>
+</div>
+
+</body>
+</html>

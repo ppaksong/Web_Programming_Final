@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 상세보기</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+    h2 { color: #333; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+    .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+    .content { background: #f9f9f9; padding: 20px; border: 1px solid #eee; border-radius: 5px; min-height: 150px; margin-bottom: 20px; white-space: pre-wrap; }
+    a { text-decoration: none; color: #007BFF; margin-right: 15px; }
+    a:hover { text-decoration: underline; }
+    .btn-delete { background: none; border: none; color: #dc3545; cursor: pointer; font-size: 1em; padding: 0; }
+    .btn-delete:hover { text-decoration: underline; }
+    .actions { margin-top: 30px; }
+  </style>
+</head>
+<body>
+
+  <h2><%= post.title %></h2>
+
+  <div class="meta">
+    작성자: <strong><%= post.author %></strong>
+  </div>
+
+  <div class="content"><%= post.content %></div>
+
+  <% if (post.file_path) { %>
+    <div style="margin: 20px 0; padding: 10px; background: #e9ecef; border-radius: 4px;">
+      <strong>첨부파일:</strong>
+      <a href="<%= post.file_path %>" download><%= post.file_path.split('/').pop() %> (다운로드)</a>
+    </div>
+  <% } %>
+
+  <div class="actions">
+      <a href="/board">← 목록으로 돌아가기</a>
+
+      <% if (user) { %>
+        <a href="/board/reply/<%= post.id %>" style="color: #28a745; font-weight: bold;">[답글 달기]</a>
+      <% } %>
+
+      |
+
+      <% if (user && user.username === post.author) { %>
+        <a href="/board/edit/<%= post.id %>" style="color: #007BFF;">수정하기</a>
+
+        <form action="/board/delete/<%= post.id %>" method="POST" style="display: inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+          <button type="submit" class="btn-delete" style="color: #dc3545; background: none; border: none; cursor: pointer; font-size: 1em; font-family: inherit; text-decoration: none;">삭제하기</button>
+        </form>
+      <% } else { %>
+        <span style="color: #aaa; cursor: not-allowed; margin-right: 15px;" title="본인 글만 수정할 수 있습니다.">수정하기</span>
+
+        <button type="button" style="color: #aaa; background: none; border: none; cursor: not-allowed; font-size: 1em; font-family: inherit;" disabled title="본인 글만 삭제할 수 있습니다.">삭제하기</button>
+      <% } %>
+    </div>
+
+</body>
+</html>

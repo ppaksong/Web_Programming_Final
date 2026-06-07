@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title><%= product.name %> - 상품 상세보기</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+    .product-container { display: flex; gap: 40px; margin-top: 30px; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
+    .product-image { flex: 1; max-width: 400px; text-align: center; }
+    .product-image img { width: 100%; border-radius: 8px; object-fit: cover; border: 1px solid #eee; }
+    .product-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .product-info h2 { font-size: 2em; margin: 0 0 10px 0; color: #333; }
+    .price { font-size: 1.5em; color: #e11d48; font-weight: bold; margin: 10px 0 20px 0; }
+    .description { color: #666; font-size: 1.1em; margin-bottom: 30px; }
+
+    .quantity-select { margin-bottom: 20px; font-size: 1em; }
+    .quantity-select select { padding: 5px; font-size: 1em; border-radius: 4px; margin-left: 10px; }
+
+    .cart-btn { padding: 12px 24px; background-color: #22c55e; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; }
+    .cart-btn:hover { background-color: #16a34a; }
+    .back-link { display: inline-block; margin-bottom: 20px; color: #2563eb; text-decoration: none; font-weight: bold; }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="/products" class="back-link">← 상품 목록으로 돌아가기</a>
+  </header>
+
+  <main>
+    <div class="product-container">
+      <div class="product-image">
+        <img src="/images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
+      </div>
+
+      <div class="product-info">
+        <h2><%= product.emoji %> <%= product.name %></h2>
+        <div class="price">₩<%= product.price.toLocaleString() %></div>
+        <p class="description"><%= product.description %></p>
+
+        <form action="/products/cart/add" method="POST">
+          <input type="hidden" name="product_id" value="<%= product.id %>">
+
+          <div class="quantity-select">
+            <label for="quantity">구매 수량:</label>
+            <select name="quantity" id="quantity">
+              <option value="1">1개</option>
+              <option value="2">2개</option>
+              <option value="3">3개</option>
+              <option value="4">4개</option>
+              <option value="5">5개</option>
+            </select>
+          </div>
+
+          <button type="submit" class="cart-btn">🛒 장바구니에 담기</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer style="margin-top: 40px; color: #aaa; font-size: 0.9em;">
+    &copy; 2025 쇼핑몰 예시. All rights reserved.
+  </footer>
+
+</body>
+</html>

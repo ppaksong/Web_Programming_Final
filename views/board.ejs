@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>고객센터 / 게시판</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <style>
+        /* 🎨 [메인 기준 공통 스타일] 전체 레이아웃 및 상단 네비게이터 */
+        body { font-family: sans-serif; padding: 0; margin: 0; background-color: #f8fafc; color: #334155; }
+        .container { padding: 40px; max-width: 1200px; margin: 0 auto; }
+
+        /* 🌟 메인 화면 디자인 기준과 100% 동일한 헤더 */
+        .main-header {
+            background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.04); border-bottom: 1px solid #e2e8f0;
+            padding: 15px 40px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .header-logo { font-size: 1.4em; font-weight: bold; }
+        .header-logo a { color: #1e293b; text-decoration: none; display: flex; align-items: center; gap: 5px; }
+        .header-search { flex: 0 1 400px; margin: 0 20px; position: relative; }
+        .header-search input { width: 100%; padding: 8px 16px; border: 1px solid #cbd5e1; border-radius: 20px; font-size: 0.9em; outline: none; background-color: #f8fafc; }
+        .header-menu { font-size: 0.9em; color: #475569; display: flex; align-items: center; gap: 12px; }
+        .header-menu a { color: #475569; text-decoration: none; font-weight: 500; }
+        .header-menu a:hover { color: #1e293b; }
+        .user-welcome { color: #2563eb; font-weight: bold; }
+
+        /* 게시판 타이틀 영역 */
+        .page-title-area { margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .page-title-left h2 { margin: 0 0 6px 0; font-size: 1.8em; color: #0f172a; border-left: 5px solid #2563eb; padding-left: 10px; }
+        .page-title-left p { color: #64748b; font-size: 0.95em; margin: 0; padding-left: 15px; }
+
+        /* 📋 고급스러운 게시판 테이블 UI 디자인 */
+        .board-container {
+            background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0;
+            overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        .board-table { width: 100%; border-collapse: collapse; text-align: center; }
+        .board-table th { background-color: #f1f5f9; padding: 16px; font-weight: bold; color: #475569; border-bottom: 1px solid #e2e8f0; font-size: 0.95em; }
+        .board-table td { padding: 16px; border-bottom: 1px solid #e2e8f0; color: #334155; font-size: 0.95em; }
+        .board-table tbody tr:last-child td { border-bottom: none; }
+        .board-table tbody tr:hover { background-color: #f8fafc; transition: background-color 0.2s; }
+
+        .board-table td.col-title { text-align: left; }
+        .board-table td.col-title a { color: #1e293b; text-decoration: none; font-weight: 500; display: block; }
+        .board-table td.col-title a:hover { color: #2563eb; text-decoration: underline; }
+
+        .col-id { width: 80px; color: #94a3b8 !important; }
+        .col-author { width: 120px; }
+        .col-date { width: 120px; color: #64748b !important; }
+        .col-views { width: 80px; color: #64748b !important; }
+
+        /* 버튼 및 하단 영역 */
+        .btn-write {
+            background: #2563eb; color: white; border: none; padding: 10px 20px;
+            border-radius: 8px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; transition: background 0.2s;
+        }
+        .btn-write:hover { background: #1d4ed8; }
+        .empty-row { color: #94a3b8; padding: 40px !important; }
+    </style>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="header-logo"><a href="/"><span>🍎</span> 우리들의 과일 쇼핑몰</a></div>
+    <div class="header-search"><input type="text" placeholder="검색어를 입력하세요..."></div>
+    <div class="header-menu">
+        <% if (locals.user) { %>
+            <span class="user-welcome"><%= user.name %>님</span> 환영합니다!
+            <span>|</span> <a href="/mypage">마이페이지</a>
+            <span>|</span> <a href="/cart">장바구니</a>
+            <span>|</span> <a href="/user/logout" style="color: #ef4444; font-weight: bold;">로그아웃</a>
+        <% } else { %>
+            <a href="/user/login">로그인</a>
+            <span>|</span> <a href="/user/register" style="color: #2563eb; font-weight: bold;">회원가입</a>
+        <% } %>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="page-title-area">
+      <div class="page-title-left">
+        <h2>📢 고객센터 / 게시판</h2>
+        <p>공지사항을 확인하거나 궁금한 점을 남겨주세요.</p>
+      </div>
+      <div class="page-title-right">
+        <% if (locals.user) { %>
+          <a href="/board/new" class="btn-write">✏️ 글쓰기</a>
+        <% } else { %>
+          <a href="/user/login" class="btn-write" style="background: #64748b;">로그인 후 글쓰기</a>
+        <% } %>
+      </div>
+    </div>
+
+    <div class="board-container">
+      <table class="board-table">
+        <thead>
+          <tr>
+            <th class="col-id">번호</th>
+            <th>제목</th>
+            <th class="col-author">작성자</th>
+            <th class="col-date">작성일</th>
+            <th class="col-views">조회수</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (locals.posts && posts.length > 0) { %>
+            <% posts.forEach(post => { %>
+              <tr>
+                <td class="col-id"><%= post.id %></td>
+                <td class="col-title">
+                  <a href="/board/detail/<%= post.id %>"><%= post.title %></a>
+                </td>
+                <td class="col-author"><%= post.author || '익명' %></td>
+                <td class="col-date"><%= post.created_at ? post.created_at.split(' ')[0] : '-' %></td>
+                <td class="col-views"><%= post.views || 0 %></td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            <tr>
+              <td colspan="5" class="empty-row">현재 등록된 게시글이 없습니다. 첫 번째 글을 남겨보세요!</td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

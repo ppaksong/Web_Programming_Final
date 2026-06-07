@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - 정보입력</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 14px 0;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        label {
+            font-size: 0.9em;
+            color: #444;
+            font-weight: bold;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h2>회원가입</h2>
+    <form action="/user/register" method="post">
+        <div class="step-title">[2단계] 회원정보 입력</div>
+
+        <label>사용자 아이디 (ID)</label>
+        <input type="text" name="username" placeholder="아이디를 입력하세요" required>
+
+        <label>비밀번호 (Password)</label>
+        <input type="password" name="password" placeholder="비밀번호를 입력하세요" required>
+
+        <label>이름 (Name)</label>
+        <input type="text" name="name" placeholder="이름을 입력하세요" required>
+
+        <label>연락처 (Phone) <span style="color:#ef4444; font-size:0.8em;">*주문 기능 연동 필수</span></label>
+        <input type="text" name="phone" placeholder="010-0000-0000" required>
+
+        <label>기본 배송 주소 (Address) <span style="color:#ef4444; font-size:0.8em;">*배송 기능 연동 필수</span></label>
+        <input type="text" name="address" placeholder="배송지 주소를 입력하세요" required>
+
+        <button type="submit">회원가입 완료하기 🎉</button>
+    </form>
+</body>
+</html>

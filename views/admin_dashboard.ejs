@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>👑 관리자 대시보드</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; background-color: #f1f5f9; color: #334155; }
+        h1 { color: #0f172a; border-bottom: 3px solid #cbd5e1; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        h2 { color: #1e293b; margin-top: 30px; border-left: 5px solid #2563eb; padding-left: 10px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th, td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+        th { background: #f8fafc; color: #475569; }
+        .btn-blue { background: #2563eb; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-blue:hover { background: #1d4ed8; }
+        .btn-red { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-red:hover { background: #dc2626; }
+        .input-box { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; margin-top: 5px; margin-bottom: 15px; }
+        .flex-container { display: flex; gap: 20px; }
+        .flex-child { flex: 1; }
+    </style>
+</head>
+<body>
+
+    <h1>
+        <span>👑 쇼핑몰 최고 관리자 제어 콘솔</span>
+        <a href="/" style="font-size: 0.5em; background: #64748b; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none;">🏠 사용자 메인 홈 이동</a>
+    </h1>
+
+    <div class="flex-container">
+        <div class="card flex-child">
+            <h2>➕ 신규 쇼핑몰 과일 상품 추가</h2>
+            <form action="/admin/product/add" method="POST">
+                <label>과일 이름:</label>
+                <input type="text" name="name" class="input-box" placeholder="예: 시나노골드 사과" required>
+
+                <label>판매 가격 (원):</label>
+                <input type="number" name="price" class="input-box" placeholder="예: 15000" required>
+
+                <label>대표 식별 이모지 (Emoji):</label>
+                <input type="text" name="emoji" class="input-box" placeholder="예: 🍏">
+
+                <label>상품 상세 설명 설명글:</label>
+                <input type="text" name="description" class="input-box" placeholder="당도 높은 신선 농가 직송 과일입니다." required>
+
+                <label>매핑 이미지 파이 파일명 (public/images 내 배치):</label>
+                <input type="text" name="image" class="input-box" placeholder="apple.png (미입력 시 default.jpg)">
+
+                <button type="submit" class="btn-blue" style="width: 100%;">📦 신규 상품 등록</button>
+            </form>
+        </div>
+
+        <div class="card flex-child" style="border: 2px solid #16a34a;">
+            <h2>📢 메인 표출용 전용 공지사항 작성</h2>
+            <form action="/admin/notice/add" method="POST">
+                <label>공지사항 핵심 제목:</label>
+                <input type="text" name="title" class="input-box" placeholder="[안내] 서버 정기 점검 및 배송 휴무 안내" required>
+
+                <label>공지 세부 내용:</label>
+                <textarea name="content" class="input-box" style="height: 175px; resize: none; font-family: sans-serif;" placeholder="쇼핑몰 전역 메인 피드에 노출될 공지사항 상세 내용을 입력하세요." required></textarea>
+
+                <button type="submit" class="btn-blue" style="width: 100%; background: #16a34a;">📢 메인 전역 공지사항 배포</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🚚 고객 실시간 주문 현황 배송 관제</h2>
+        <table>
+            <tr>
+                <th>주문 고유번호</th>
+                <th>주문 유저 ID</th>
+                <th>수령자 성명</th>
+                <th>배송 주소지</th>
+                <th>결제 총액</th>
+                <th>현재 배송 상태 설정</th>
+                <th>트래킹 확정</th>
+            </tr>
+            <% orders.forEach(o => { %>
+                <tr>
+                    <td><%= o.id %></td>
+                    <td><%= o.user_id %></td>
+                    <td><%= o.receiver_name %></td>
+                    <td><%= o.delivery_address %></td>
+                    <td style="color:#e11d48; font-weight: bold;">₩<%= o.total_price.toLocaleString() %></td>
+                    <form action="/admin/order/status" method="POST">
+                        <input type="hidden" name="order_id" value="<%= o.id %>">
+                        <td>
+                            <select name="status" class="input-box" style="padding:4px; margin:0;">
+                                <option value="결제완료" <%= o.status === '결제완료' ? 'selected' : '' %>>결제완료</option>
+                                <option value="배송중" <%= o.status === '배송중' ? 'selected' : '' %>>배송중</option>
+                                <option value="배송완료" <%= o.status === '배송완료' ? 'selected' : '' %>>배송완료</option>
+                                <option value="주문취소" <%= o.status === '주문취소' ? 'selected' : '' %>>주문취소</option>
+                                <option value="반품신청" <%= o.status === '반품신청' ? 'selected' : '' %>>반품신청</option>
+                                <option value="반품완료" <%= o.status === '반품완료' ? 'selected' : '' %>>반품완료</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn-blue" style="padding:4px 8px; font-size: 0.85em;">🚚 전송</button>
+                        </td>
+                    </form>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>👥 전체 회원 권한 및 제어 등급 마스터 테이블</h2>
+        <table>
+            <tr>
+                <th>일련번호</th>
+                <th>계정 회원명</th>
+                <th>회원 실명</th>
+                <th>부여 등급</th>
+                <th>현재 상태</th>
+                <th>상태 변경</th>
+                <th>회원 파기</th>
+            </tr>
+            <% users.forEach(u => { %>
+                <tr>
+                    <td><%= u.id %></td>
+                    <td><strong><%= u.username %></strong></td>
+                    <td><%= u.name %></td>
+                    <form action="/admin/user/update" method="POST">
+                        <input type="hidden" name="username" value="<%= u.username %>">
+                        <td>
+                            <select name=\"role\" class=\"input-box\" style=\"padding:4px; margin:0; width: 110px;\">
+                                <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>user (일반)</option>
+                                <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>admin (관리자)</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select name="status" class="input-box" style="padding:4px; margin:0; width: 120px;">
+                                <option value="active" <%= u.status === 'active' ? 'selected' : '' %>>active (정상)</option>
+                                <option value="suspended" <%= u.status === 'suspended' ? 'selected' : '' %>>suspended (정지)</option>
+                                <option value="withdrawn" <%= u.status === 'withdrawn' ? 'selected' : '' %>>withdrawn (탈퇴)</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn-blue" style="padding:4px 8px; font-size: 0.85em;">💾 저장</button>
+                        </td>
+                    </form>
+                    <td>
+                        <form action="/admin/user/delete" method="POST" style="display:inline;" onsubmit="return confirm('⚠️ 해당 회원의 모든 데이터가 영구 삭제됩니다. 진행하시겠습니까?');">
+                            <input type="hidden" name="username" value="<%= u.username %>">
+                            <button type="submit" class="btn-red" style="padding:4px 8px; font-size: 0.85em;">🗑 영구삭제</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+
+</body>
+</html>

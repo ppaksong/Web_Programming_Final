@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>🔍 아이디 찾기</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .find-container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); width: 360px; }
+        h2 { text-align: center; color: #1e293b; margin-bottom: 24px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 6px; color: #475569; font-size: 0.9em; font-weight: bold; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
+        .btn-submit { background: #2563eb; color: white; border: none; width: 100%; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-submit:hover { background: #1d4ed8; }
+        .links { text-align: center; margin-top: 15px; font-size: 0.85em; }
+        .links a { color: #64748b; text-decoration: none; margin: 0 5px; }
+        .links a:hover { text-decoration: underline; color: #1e293b; }
+    </style>
+</head>
+<body>
+
+<div class="find-container">
+    <h2>🔍 아이디 찾기</h2>
+    <form action="/user/find-id" method="POST">
+        <div class="input-group">
+            <label for="name">가입된 이름</label>
+            <input type="text" id="name" name="name" placeholder="홍길동" required>
+        </div>
+        <div class="input-group">
+            <label for="phone">가입된 전화번호</label>
+            <input type="text" id="phone" name="phone" placeholder="010-1234-5678" required>
+        </div>
+        <button type="submit" class="btn-submit">아이디 찾기</button>
+    </form>
+    <div class="links">
+        <a href="/user/login">로그인 화면으로</a> |
+        <a href="/user/find-pw">비밀번호 찾기</a>
+    </div>
+</div>
+
+</body>
+</html>
