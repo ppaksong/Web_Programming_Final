@@ -95,4 +95,12 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// ====================================================================
+// 🚀 [추가 필수 설정] 서버 실행 포트 동적 할당 (GitHub 배포 매뉴얼 준수)
+// ====================================================================
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 module.exports = app;
