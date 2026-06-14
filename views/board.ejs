@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>고객센터 / 게시판</title>
-    <link rel="stylesheet" href="./stylesheets/style.css">
+    <!-- 🌟 [교정 1]: 하위 라우트 경로에서도 CSS 스타일이 깨지지 않도록 절대 고정 경로로 변경 -->
+    <link rel="stylesheet" href="/stud7/stylesheets/style.css">
     <style>
         /* 🎨 [메인 기준 공통 스타일] 전체 레이아웃 및 상단 네비게이터 */
         body { font-family: sans-serif; padding: 0; margin: 0; background-color: #f8fafc; color: #334155; }
@@ -60,17 +61,19 @@
 <body>
 
   <header class="main-header">
-    <div class="header-logo"><a href="./"><span>💪</span> PNU PROTEIN & HEALTHCARE <span>💪</span></div>
+    <!-- 🌟 [교정 2]: 로고 클릭 시 학교 최상단이 아닌 쇼핑몰 메인으로 이동하도록 고정 경로 명시 -->
+    <div class="header-logo"><a href="/stud7/"><span>💪</span> PNU PROTEIN & HEALTHCARE <span>💪</span></a></div>
     <div class="header-search"><input type="text" placeholder="검색어를 입력하세요..."></div>
     <div class="header-menu">
         <% if (locals.user) { %>
             <span class="user-welcome"><%= user.name %>님</span> 환영합니다!
-            <span>|</span> <a href="./mypage">마이페이지</a>
-            <span>|</span> <a href="./cart">장바구니</a>
-            <span>|</span> <a href="./user/logout" style="color: #ef4444; font-weight: bold;">로그아웃</a>
+            <!-- 🌟 [교정 3]: 상단 네비게이션 메뉴에 /stud7 주입 -->
+            <span>|</span> <a href="/stud7/mypage">마이페이지</a>
+            <span>|</span> <a href="/stud7/cart">장바구니</a>
+            <span>|</span> <a href="/stud7/user/logout" style="color: #ef4444; font-weight: bold;">로그아웃</a>
         <% } else { %>
-            <a href="./user/login">로그인</a>
-            <span>|</span> <a href="./user/register" style="color: #2563eb; font-weight: bold;">회원가입</a>
+            <a href="/stud7/user/login">로그인</a>
+            <span>|</span> <a href="/stud7/user/register" style="color: #2563eb; font-weight: bold;">회원가입</a>
         <% } %>
     </div>
   </header>
@@ -83,9 +86,10 @@
       </div>
       <div class="page-title-right">
         <% if (locals.user) { %>
-          <a href="./board/new" class="btn-write">✏️ 글쓰기</a>
+          <!-- 🌟 [교정 4]: 글쓰기 버튼 경로 정상화 -->
+          <a href="/stud7/board/new" class="btn-write">✏️ 글쓰기</a>
         <% } else { %>
-          <a href="./user/login" class="btn-write" style="background: #64748b;">로그인 후 글쓰기</a>
+          <a href="/stud7/user/login" class="btn-write" style="background: #64748b;">로그인 후 글쓰기</a>
         <% } %>
       </div>
     </div>
@@ -107,7 +111,8 @@
               <tr>
                 <td class="col-id"><%= post.id %></td>
                 <td class="col-title">
-                  <a href="./board/detail/<%= post.id %>"><%= post.title %></a>
+                  <!-- 🌟 [교정 5]: 게시글 상세 보기 진입 주소가 꼬이지 않도록 명확하게 절대 경로로 보정 -->
+                  <a href="/stud7/board/detail/<%= post.id %>"><%= post.title %></a>
                 </td>
                 <td class="col-author"><%= post.author || '익명' %></td>
                 <td class="col-date"><%= post.created_at ? post.created_at.split(' ')[0] : '-' %></td>
