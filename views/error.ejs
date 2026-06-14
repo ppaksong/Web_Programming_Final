@@ -1,3 +1,11 @@
 <h1><%= message %></h1>
 <h2><%= error.status %></h2>
 <pre><%= error.stack %></pre>
+
+<!--
+  🌟 [안내]: error.ejs 파일은 시스템 에러 발생 시 동적으로 호출되는 예외 화면입니다.
+  특정 페이지로 돌아갈 수 있는 안전한 탈출구(메인 홈 링크)를 미리 만들어두면
+  사용자가 에러를 만났을 때 길을 잃지 않고 쇼핑몰로 안전하게 복귀할 수 있습니다.
+-->
+<hr style="margin-top: 30px; border: 0; border-top: 1px solid #e2e8f0;">
+<a href="/stud7/" style="display: inline-block; padding: 10px 20px; background-color: #2563eb; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-family: sans-serif;">🏠 쇼핑몰 메인으로 이동</a>

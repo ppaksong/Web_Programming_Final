@@ -88,14 +88,16 @@
     <!-- 👑 콘솔 대시보드 헤더 메인 -->
     <header class="admin-header">
         <h1>👑 쇼핑몰 최고 관리자 제어 콘솔</h1>
-        <a href="./" class="btn-home">🏠 사용자 메인 홈 이동</a>
+        <!-- 🌟 [교정 1]: 사용자 메인 홈 링크 수정 -->
+        <a href="/stud7/" class="btn-home">🏠 사용자 메인 홈 이동</a>
     </header>
 
     <div class="top-grid">
         <!-- ➕ 1. 신규 쇼핑몰 상품 등록 폼 구역 -->
         <section class="form-card">
             <h2>+ 쇼핑몰 신규 보충제 상품 추가</h2>
-            <form action="/admin/product/add" method="POST">
+            <!-- 🌟 [교정 2]: 상품 추가 API 액션 경로 수정 -->
+            <form action="/stud7/admin/product/add" method="POST">
                 <div class="form-group">
                     <label>보충제/상품 이름:</label>
                     <input type="text" name="name" placeholder="예: 헬스 트레이너용 프로틴 고단백 355ml x 24개" required>
@@ -123,7 +125,8 @@
         <!-- 📢 2. 메인 전역 공지사항 배포 폼 구역 -->
         <section class="form-card">
             <h2>📢 메인 표출용 전용 공지사항 작성</h2>
-            <form action="/admin/notice/add" method="POST">
+            <!-- 🌟 [교정 3]: 공지사항 추가 API 액션 경로 수정 -->
+            <form action="/stud7/admin/notice/add" method="POST">
                 <div class="form-group">
                     <label>공지사항 핵심 제목:</label>
                     <input type="text" name="title" placeholder="[안내] 서버 정기 점검 및 배송 휴무 안내" required>
@@ -162,7 +165,8 @@
                                 <td><%= order.receiver_name %></td>
                                 <td style="text-align: left;"><%= order.delivery_address %></td>
                                 <td class="price-highlight">₩<%= order.total_price.toLocaleString() %></td>
-                                <form action="/admin/order/status" method="POST">
+                                <!-- 🌟 [교정 4]: 주문 배송 상태 갱신 API 액션 경로 수정 -->
+                                <form action="/stud7/admin/order/status" method="POST">
                                     <input type="hidden" name="order_id" value="<%= order.id %>">
                                     <td>
                                         <select name="status" class="select-control">
@@ -209,7 +213,8 @@
                                 <td><%= u.id %></td>
                                 <td style="font-weight: bold;"><%= u.username %></td>
                                 <td><%= u.name %></td>
-                                <form action="/admin/user/update" method="POST">
+                                <!-- 🌟 [교정 5]: 회원 권한 갱신 API 액션 경로 수정 -->
+                                <form action="/stud7/admin/user/update" method="POST">
                                     <input type="hidden" name="username" value="<%= u.username %>">
                                     <td>
                                         <select name="role" class="select-control">
@@ -228,7 +233,8 @@
                                     </td>
                                 </form>
                                 <td>
-                                    <form action="/admin/user/delete" method="POST" onsubmit="return confirm('이 회원 데이터를 영구 삭제하시겠습니까?');">
+                                    <!-- 🌟 [교정 6]: 회원 삭제 API 액션 경로 수정 -->
+                                    <form action="/stud7/admin/user/delete" method="POST" onsubmit="return confirm('이 회원 데이터를 영구 삭제하시겠습니까?');">
                                         <input type="hidden" name="username" value="<%= u.username %>">
                                         <button type="submit" class="btn-action btn-table-action btn-delete">🗑️ 삭제</button>
                                     </form>

@@ -1,66 +1,111 @@
-<!--
-<h2>답글 작성</h2>
-<p>📝 원글 제목: <strong><%= parentTitle %></strong></p>
-<form action="/create" method="POST">
-  <input type="hidden" name="parent_id" value="<%= parentId %>">
-  <label>작성자</label><br>
-  <input type="text" name="author" required><br><br>
-  <label>제목</label><br>
-  <input type="text" name="title" required><br><br>
-
-  <label>내용</label><br>
-  <textarea name="content" rows="5" cols="50" required></textarea><br><br>
-
-  <button type="submit">답글 등록</button>
-</form>
--->
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>답글 작성</title>
+  <title>답글 작성 - PNU PROTEIN & HEALTHCARE</title>
+  <!-- 🌟 [교정 1]: 스타일시트가 주소 뎁스에 상관없이 안전하게 렌더링되도록 절대 고정 경로 처리 -->
+  <link rel="stylesheet" href="/stud7/stylesheets/style.css">
   <style>
+    /* 🎨 전체 서비스의 톤앤매너 매칭 및 폼 레이아웃 최적화 */
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       margin: 40px;
+      background-color: #f8fafc;
+      color: #334155;
+    }
+    h2 {
+      color: #0f172a;
+      margin-bottom: 5px;
+    }
+    .parent-info {
+      background-color: #f1f5f9;
+      padding: 12px 16px;
+      border-radius: 6px;
+      border-left: 4px solid #1B434A;
+      margin-bottom: 25px;
+      font-size: 0.95em;
     }
     form {
-      width: 500px;
+      max-width: 600px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    label {
+      font-weight: bold;
+      color: #475569;
+      font-size: 0.9em;
     }
     input[type="text"], textarea {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 16px;
       box-sizing: border-box;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.95em;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, textarea:focus {
+      border-color: #1B434A;
     }
     button {
-      padding: 8px 16px;
-      margin-top: 10px;
+      background-color: #1B434A;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background-color: #112F34;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #475569;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+      color: #1B434A;
     }
   </style>
 </head>
 <body>
 
   <h2>답글 작성</h2>
-  <p>📝 원글 제목: <strong><%= parentTitle %></strong></p>
+  <div class="parent-info">
+    📝 원글 제목: <strong><%= parentTitle %></strong>
+  </div>
 
-  <form action="/board/create" method="POST">
+  <!-- 🌟 [교정 2]: 답글 등록 시 404 라우팅 에러 방지를 위해 /stud7/board/ 고정 절대 경로 주입 -->
+  <form action="/stud7/board/create" method="POST">
     <!-- 부모 글 ID를 숨겨서 서버에 전달 -->
     <input type="hidden" name="parent_id" value="<%= parentId %>">
 
-    <label for="author">작성자</label><br>
-    <input type="text" id="author" name="author" required><br><br>
+    <label for="author">작성자</label>
+    <input type="text" id="author" name="author" placeholder="작성자 이름을 입력하세요" required>
 
-    <label for="title">제목</label><br>
-    <input type="text" id="title" name="title" required><br><br>
+    <label for="title">제목</label>
+    <input type="text" id="title" name="title" placeholder="답글 제목을 입력하세요" required>
 
-    <label for="content">내용</label><br>
-    <textarea id="content" name="content" rows="5" required></textarea><br><br>
+    <label for="content">내용</label>
+    <textarea id="content" name="content" rows="8" placeholder="답글 내용을 작성하세요" required></textarea>
 
-    <button type="submit">답글 등록</button>
+    <button type="submit">답글 등록 🚀</button>
   </form>
 
-  <p><a href="./board">[목록으로 돌아가기]</a></p>
+  <!-- 🌟 [교정 3]: 현재 라우트 주소 위치에 영향을 받지 않고 게시판 첫 화면으로 안전하게 복귀하도록 고정 경로 보정 -->
+  <p><a href="/stud7/board" class="back-link">← 게시판 목록으로 돌아가기</a></p>
 
 </body>
 </html>

@@ -6,58 +6,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원가입 - 정보입력</title>
     <style>
+        /* 🎨 전체 브랜드 톤앤매너 매칭 (#1B434A) 및 UI 가치 향상 */
         body {
-            font-family: Arial, sans-serif;
+            font-family: sans-serif;
             padding: 40px;
-            background-color: #f4f4f4;
+            background-color: #f8fafc;
+            color: #334155;
         }
         h2 {
-            color: #333;
+            color: #0f172a;
+            margin-bottom: 20px;
         }
         form {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 400px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 450px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
         }
         input {
             width: 100%;
-            padding: 10px;
-            margin: 6px 0 14px 0;
+            padding: 10px 12px;
+            margin: 6px 0 16px 0;
             box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.95em;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #1B434A;
         }
         button {
             width: 100%;
-            background-color: #4CAF50;
+            background-color: #1B434A;
             color: white;
             padding: 12px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
+            transition: background 0.2s;
+            margin-top: 5px;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #112F34;
         }
         label {
             font-size: 0.9em;
-            color: #444;
+            color: #475569;
             font-weight: bold;
         }
         .step-title {
             font-weight: bold;
-            color: #2563eb;
-            margin-bottom: 15px;
+            color: #1B434A;
+            margin-bottom: 20px;
+            font-size: 1.05em;
         }
     </style>
 </head>
 <body>
     <h2>회원가입</h2>
-    <!-- 🌟 [핵심 교정]: 학과 서버 Nginx 라우팅 규칙에 맞춰 고정 배포 경로 /stud7을 명시합니다. -->
+
+    <!-- 🌟 [핵심 유지]: 학과 서버 Nginx 라우팅 규칙에 맞춰 고정 배포 경로 /stud7을 명시합니다. -->
     <form action="/stud7/user/register" method="post">
         <div class="step-title">[2단계] 회원정보 입력</div>
 
@@ -70,10 +84,10 @@
         <label>이름 (Name)</label>
         <input type="text" name="name" placeholder="이름을 입력하세요" required>
 
-        <label>연락처 (Phone) <span style="color:#ef4444; font-size:0.8em;">*주문 기능 연동 필수</span></label>
+        <label>연락처 (Phone) <span style="color:#ef4444; font-size:0.85em;">*주문 기능 연동 필수</span></label>
         <input type="text" name="phone" placeholder="010-0000-0000" required>
 
-        <label>기본 배송 주소 (Address) <span style="color:#ef4444; font-size:0.8em;">*배송 기능 연동 필수</span></label>
+        <label>기본 배송 주소 (Address) <span style="color:#ef4444; font-size:0.85em;">*배송 기능 연동 필수</span></label>
         <input type="text" name="address" placeholder="배송지 주소를 입력하세요" required>
 
         <button type="submit">회원가입 완료하기 🎉</button>

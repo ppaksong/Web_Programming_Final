@@ -33,8 +33,13 @@
     .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 25px; }
     .product-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: center; background: #fff; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: transform 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
     .product-card:hover { transform: translateY(-3px); }
+
+    /* 🔗 상품 상세 이동을 위한 링크 스타일 커스텀 */
+    .product-link { text-decoration: none; color: inherit; display: block; }
+
     .product-card img { width: 100%; max-height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
     .product-card h3 { color: #1e293b; margin: 0 0 8px 0; font-size: 16px; font-weight: bold; }
+    .product-card h3:hover { color: #1B434A; }
     .product-card .desc { color: #64748b; font-size: 0.85em; margin: 0 0 12px 0; line-height: 1.4; min-height: 38px; }
     .product-card .price { color: #e11d48; font-size: 1.1em; font-weight: bold; display: block; margin-bottom: 15px; }
 
@@ -82,12 +87,16 @@
       <% if (locals.products && products.length > 0) { %>
         <% products.forEach(product => { %>
           <div class="product-card">
-            <div>
-              <!-- 🌟 [교정 4]: 하위 라우트 경로에서도 대시보드 이미지가 깨지지 않도록 절대 고정 경로로 보정 -->
-              <img src="/stud7/images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
-              <h3><%= product.emoji %> <%= product.name %></h3>
-              <p class="desc"><%= product.description %></p>
-            </div>
+
+            <!-- 🌟 [추가 보정]: 이미지와 상품 정보 클릭 시 상세 정보 페이지(/stud7/products/:id)로 이동하도록 동적 앵커 배치 -->
+            <a href="/stud7/products/<%= product.id %>" class="product-link">
+              <div>
+                <!-- 🌟 [교정 4]: 하위 라우트 경로에서도 대시보드 이미지가 깨지지 않도록 절대 고정 경로로 보정 -->
+                <img src="/stud7/images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
+                <h3><%= product.emoji %> <%= product.name %></h3>
+                <p class="desc"><%= product.description %></p>
+              </div>
+            </a>
 
             <div>
               <span class="price">₩<%= product.price.toLocaleString() %></span>

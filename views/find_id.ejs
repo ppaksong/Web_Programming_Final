@@ -21,7 +21,8 @@
 
 <div class="find-container">
     <h2>🔍 아이디 찾기</h2>
-    <form action="/user/find-id" method="POST">
+    <!-- 🌟 [교정 1]: 아이디 찾기 요청 라우팅 경로에 /stud7 주입 -->
+    <form action="/stud7/user/find-id" method="POST">
         <div class="input-group">
             <label for="name">가입된 이름</label>
             <input type="text" id="name" name="name" placeholder="홍길동" required>
@@ -33,8 +34,9 @@
         <button type="submit" class="btn-submit">아이디 찾기</button>
     </form>
     <div class="links">
-        <a href="./user/login">로그인 화면으로</a> |
-        <a href="./user/find-pw">비밀번호 찾기</a>
+        <!-- 🌟 [교정 2]: 하위 상대 경로 함정을 차단하기 위해 절대 고정 경로 처리 -->
+        <a href="/stud7/user/login">로그인 화면으로</a> |
+        <a href="/stud7/user/find-pw">비밀번호 찾기</a>
     </div>
 </div>
 

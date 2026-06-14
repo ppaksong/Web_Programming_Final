@@ -22,6 +22,11 @@
 </head>
 <body>
   <h2><%= message %></h2>
-  <a href="<%= redirectUrl %>">🔐 로그인하러 가기</a>
+
+  <!--
+    🌟 [교정]: 백엔드(app.js 등)에서 `redirectUrl`을 이미 `/stud7/user/login`으로 넘겨주고 있다면 그대로 두어도 좋지만,
+    만약의 경로 이탈을 방지하고 안정적인 하위 디렉터리 바인딩을 보장하기 위해 확실한 고정 경로 처리를 권장합니다.
+  -->
+  <a href="/stud7/user/login">🔐 로그인하러 가기</a>
 </body>
 </html>

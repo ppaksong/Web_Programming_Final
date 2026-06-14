@@ -28,23 +28,28 @@
   <% if (post.file_path) { %>
     <div style="margin: 20px 0; padding: 10px; background: #e9ecef; border-radius: 4px;">
       <strong>첨부파일:</strong>
-      <a href="<%= post.file_path %>" download><%= post.file_path.split('/').pop() %> (다운로드)</a>
+      <!-- 🌟 [교정 1]: 업로드된 파일 다운로드 경로 보정 -->
+      <a href="/stud7<%= post.file_path %>" download><%= post.file_path.split('/').pop() %> (다운로드)</a>
     </div>
   <% } %>
 
   <div class="actions">
-      <a href="./board">← 목록으로 돌아가기</a>
+      <!-- 🌟 [교정 2]: 하위 라우트에서 목록 이동 시 상대 주소 버그를 막기 위해 절대 고정 경로 처리 -->
+      <a href="/stud7/board">← 목록으로 돌아가기</a>
 
       <% if (user) { %>
-        <a href="./board/reply/<%= post.id %>" style="color: #28a745; font-weight: bold;">[답글 달기]</a>
+        <!-- 🌟 [교정 3]: 답글 달기 라우팅 경로 보정 -->
+        <a href="/stud7/board/reply/<%= post.id %>" style="color: #28a745; font-weight: bold;">[답글 달기]</a>
       <% } %>
 
       |
 
       <% if (user && user.username === post.author) { %>
-        <a href="./board/edit/<%= post.id %>" style="color: #007BFF;">수정하기</a>
+        <!-- 🌟 [교정 4]: 수정 페이지 진입 라우팅 경로 보정 -->
+        <a href="/stud7/board/edit/<%= post.id %>" style="color: #007BFF;">수정하기</a>
 
-        <form action="/board/delete/<%= post.id %>" method="POST" style="display: inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+        <!-- 🌟 [교정 5]: 삭제 기능 실행 API 액션 경로 보정 -->
+        <form action="/stud7/board/delete/<%= post.id %>" method="POST" style="display: inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
           <button type="submit" class="btn-delete" style="color: #dc3545; background: none; border: none; cursor: pointer; font-size: 1em; font-family: inherit; text-decoration: none;">삭제하기</button>
         </form>
       <% } else { %>

@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title><%= product.name %> - 상품 상세보기</title>
-  <link rel="stylesheet" href="./stylesheets/style.css">
+  <!-- 🌟 [교정 1]: 상품 상세(하위 경로) 진입 시에도 스타일시트가 깨지지 않도록 절대 경로 보정 -->
+  <link rel="stylesheet" href="/stud7/stylesheets/style.css">
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
     .product-container { display: flex; gap: 40px; margin-top: 30px; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
@@ -17,8 +18,9 @@
     .quantity-select { margin-bottom: 20px; font-size: 1em; }
     .quantity-select select { padding: 5px; font-size: 1em; border-radius: 4px; margin-left: 10px; }
 
-    .cart-btn { padding: 12px 24px; background-color: #22c55e; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; }
-    .cart-btn:hover { background-color: #16a34a; }
+    /* 브랜드 아이덴티티 유지를 위해 버튼 색상을 다크 틸 계열(#1B434A)로 변경 */
+    .cart-btn { padding: 12px 24px; background-color: #1B434A; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; transition: background 0.2s; }
+    .cart-btn:hover { background-color: #112F34; }
     .back-link { display: inline-block; margin-bottom: 20px; color: #2563eb; text-decoration: none; font-weight: bold; }
     .back-link:hover { text-decoration: underline; }
   </style>
@@ -26,13 +28,15 @@
 <body>
 
   <header>
-    <a href="./products" class="back-link">← 상품 목록으로 돌아가기</a>
+    <!-- 🌟 [교정 2]: 이전 상품 목록으로 안전하게 복귀할 수 있도록 고정 절대 경로 처리 -->
+    <a href="/stud7/products" class="back-link">← 상품 목록으로 돌아가기</a>
   </header>
 
   <main>
     <div class="product-container">
       <div class="product-image">
-        <img src="./images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
+        <!-- 🌟 [교정 3]: 정적 폴더 매핑 이미지 소스 주소 절대 경로로 보정 -->
+        <img src="/stud7/images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
       </div>
 
       <div class="product-info">
@@ -40,7 +44,8 @@
         <div class="price">₩<%= product.price.toLocaleString() %></div>
         <p class="description"><%= product.description %></p>
 
-        <form action="/products/cart/add" method="POST">
+        <!-- 🌟 [교정 4]: 장바구니 담기 라우터 요청 시 404 에러를 방지하기 위해 /stud7 경로 확실히 주입 -->
+        <form action="/stud7/cart/add" method="POST">
           <input type="hidden" name="product_id" value="<%= product.id %>">
 
           <div class="quantity-select">
@@ -61,7 +66,7 @@
   </main>
 
   <footer style="margin-top: 40px; color: #aaa; font-size: 0.9em;">
-    &copy; 2025 쇼핑몰 예시. All rights reserved.
+    &copy; 2026 PNU PROTEIN & HEALTHCARE. All rights reserved.
   </footer>
 
 </body>

@@ -63,7 +63,8 @@
 
     <div class="header-area">
         <h1>👤 마이페이지 허브</h1>
-        <a href="./" class="home-btn">🏠 홈으로 가기</a>
+        <!-- 🌟 [교정 1]: 하위 경로 탈출 및 메인 홈 이동을 위한 절대 주소 수정 -->
+        <a href="/stud7/" class="home-btn">🏠 홈으로 가기</a>
     </div>
 
     <!-- 👑 최고 권한 관리자 대시보드 게이트웨이 배너 추가 -->
@@ -73,8 +74,8 @@
                 <h3 style="margin: 0 0 5px 0; color: #1B434A; font-size: 18px;">👑 최고 권한 마스터 계정 안내</h3>
                 <p style="margin: 0; color: #556b6f; font-size: 13px;">현재 로그인된 계정은 최고 관리자 권한을 가집니다. 상품 추가, 회원 상태 변경, 배송 상태 관리 전용 대시보드를 이용할 수 있습니다.</p>
             </div>
-            <!-- 백엔드 admin.js 라우터 주소로 완벽 이동 -->
-            <a href="./admin" style="padding: 12px 24px; background-color: #1B434A; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 6px rgba(27,67,74,0.15); transition: background 0.2s;">
+            <!-- 🌟 [교정 2]: 관리자 대시보드 진입 경로 보정 -->
+            <a href="/stud7/admin" style="padding: 12px 24px; background-color: #1B434A; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; box-shadow: 0 4px 6px rgba(27,67,74,0.15); transition: background 0.2s;">
                 📊 관리자 마스터 대시보드 진입하기 →
             </a>
         </div>
@@ -93,7 +94,8 @@
 
         <div class="card">
             <h2 class="text-blue">내 정보 변경</h2>
-            <form action="/mypage/update" method="POST">
+            <!-- 🌟 [교정 3]: 회원 정보 업데이트 요청 경로 보정 -->
+            <form action="/stud7/mypage/update" method="POST">
                 <div class="form-group">
                     <label>비밀번호 변경</label>
                     <input type="password" name="password" placeholder="새로운 비밀번호 입력">
@@ -117,8 +119,8 @@
             <h2 style="color: #1B434A; margin-bottom: 5px; display: flex; align-items: center; gap: 8px;">⚙️ 관리자 권한: 새 공지사항 작성</h2>
             <p style="color: #64748b; font-size: 13px; margin-top: 0; margin-bottom: 20px;">이 영역은 관리자 계정으로 로그인 시에만 활성화됩니다. 등록된 소식은 메인 홈 상단에 즉시 게시됩니다.</p>
 
-            <!-- 🔗 404가 발생하던 경로에서 admin.js에 등록된 실제 주소인 /admin/notice/add 로 전면 변경 -->
-            <form action="/admin/notice/add" method="POST">
+            <!-- 🌟 [교정 4]: 관리자 공지사항 등록 요청 액션 경로 보정 -->
+            <form action="/stud7/admin/notice/add" method="POST">
                 <div class="form-group">
                     <label style="font-weight: bold; color: #333;">공지사항 제목</label>
                     <input type="text" name="title" placeholder="홈페이지 메인에 노출될 공지 제목을 입력하세요" required>
@@ -176,12 +178,14 @@
 
                             <td>
                                 <% if (order.status === '결제완료') { %>
-                                    <form action="/mypage/order/cancel" method="POST" class="inline-form" onsubmit="return confirm('정말 이 주문을 취소하시겠습니까?');">
+                                    <!-- 🌟 [교정 5]: 주문 취소 처리 액션 경로 보정 -->
+                                    <form action="/stud7/mypage/order/cancel" method="POST" class="inline-form" onsubmit="return confirm('정말 이 주문을 취소하시겠습니까?');">
                                         <input type="hidden" name="order_id" value="<%= order.id %>">
                                         <button type="submit" class="btn-action btn-cancel">주문취소</button>
                                     </form>
                                 <% } else if (order.status === '배송완료') { %>
-                                    <form action="/mypage/order/return" method="POST" class="inline-form" onsubmit="return confirm('이 주문에 대해 반품을 신청하시겠습니까?');">
+                                    <!-- 🌟 [교정 6]: 반품 신청 처리 액션 경로 보정 -->
+                                    <form action="/stud7/mypage/order/return" method="POST" class="inline-form" onsubmit="return confirm('이 주문에 대해 반품을 신청하시겠습니까?');">
                                         <input type="hidden" name="order_id" value="<%= order.id %>">
                                         <button type="submit" class="btn-action btn-return">반품신청</button>
                                     </form>
@@ -205,7 +209,8 @@
                         <strong><%= item.name %></strong><br>
                         <span style="color: #ff4d4d; font-size: 13px;"><%= item.price.toLocaleString() %>원</span>
 
-                        <form action="/mypage/wish/delete" method="POST" style="margin-top: 10px;">
+                        <!-- 🌟 [교정 7]: 관심 상품 위시리스트 삭제 요청 경로 보정 -->
+                        <form action="/stud7/mypage/wish/delete" method="POST" style="margin-top: 10px;">
                             <input type="hidden" name="wish_id" value="<%= item.wish_id %>">
                             <button type="submit" style="padding: 3px 8px; font-size: 11px; background: #ddd; border: none; cursor: pointer; border-radius: 3px;">삭제</button>
                         </form>
