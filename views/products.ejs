@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>전체 상품 목록</title>
-  <link rel="stylesheet" href="./stylesheets/style.css">
+  <!-- 🌟 [교정 1]: 하위 페이지에서도 CSS가 깨지지 않도록 고정 경로 처리 -->
+  <link rel="stylesheet" href="/stud7/stylesheets/style.css">
   <style>
     /* 🎨 전체 레이아웃 및 상단 네비게이터 (index.ejs와 완벽 통일) */
     body { font-family: sans-serif; padding: 0; margin: 0; background-color: #f8fafc; color: #334155; }
@@ -25,7 +26,7 @@
 
     /* 🏷️ 상품 목록 페이지 상단 타이틀 구역 */
     .page-title-area { margin-bottom: 35px; }
-    .page-title { font-size: 24px; color: #0f172a; border-left: 5px solid #1B434A; padding-left: 12px; margin: 0 0 6px 0; } /* 포인트 컬러 변경 */
+    .page-title { font-size: 24px; color: #0f172a; border-left: 5px solid #1B434A; padding-left: 12px; margin: 0 0 6px 0; }
     .page-subtitle { color: #64748b; font-size: 14px; margin: 0; }
 
     /* 🗂️ 상품 그리드 레이아웃 */
@@ -37,15 +38,13 @@
     .product-card .desc { color: #64748b; font-size: 0.85em; margin: 0 0 12px 0; line-height: 1.4; min-height: 38px; }
     .product-card .price { color: #e11d48; font-size: 1.1em; font-weight: bold; display: block; margin-bottom: 15px; }
 
-    /* 🔘 하단 버튼 그룹 (가로 정렬 보정) */
+    /* 🔘 하단 버튼 그룹 */
     .btn-group { display: flex; gap: 8px; margin-top: auto; }
     .btn-group form { flex: 1; margin: 0; }
 
-    /* 담기 버튼: 초록색에서 다크 틸로 수정 */
     .btn-cart { background: #1B434A; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 4px; transition: background 0.2s; }
     .btn-cart:hover { background: #112F34; }
 
-    /* 찜 버튼: 깔끔한 테두리 형태 유지 */
     .btn-wish { background: #fff; color: #ff4757; border: 1px solid #ffccd2; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 4px; transition: background 0.2s; }
     .btn-wish:hover { background: #fff5f5; }
   </style>
@@ -54,17 +53,19 @@
 
   <!-- 상단 공통 헤더 구역 -->
   <header class="main-header">
-    <div class="header-logo"><a href="./"><span>💪</span> PNU PROTEIN & HEALTHCARE <span>💪</span></a></div>
+    <!-- 🌟 [교정 2]: 로고 클릭 시 메인 이동 경로 보정 -->
+    <div class="header-logo"><a href="/stud7/"><span>💪</span> PNU PROTEIN & HEALTHCARE <span>💪</span></a></div>
     <div class="header-search"><input type="text" placeholder="검색어를 입력하세요..."></div>
     <div class="header-menu">
         <% if (locals.user) { %>
             <span class="user-welcome"><%= user.name %>님</span> 환영합니다!
-            <span>|</span> <a href="./mypage">마이페이지</a>
-            <span>|</span> <a href="./cart">장바구니</a>
-            <span>|</span> <a href="./user/logout" style="color: #ef4444; font-weight: bold;">로그아웃</a>
+            <!-- 🌟 [교정 3]: 네비게이션 메뉴 주소들에 고정 경로 처리 -->
+            <span>|</span> <a href="/stud7/mypage">마이페이지</a>
+            <span>|</span> <a href="/stud7/cart">장바구니</a>
+            <span>|</span> <a href="/stud7/user/logout" style="color: #ef4444; font-weight: bold;">로그아웃</a>
         <% } else { %>
-            <a href="./user/login">로그인</a>
-            <span>|</span> <a href="./user/register" style="color: #1B434A; font-weight: bold;">회원가입</a>
+            <a href="/stud7/user/login">로그인</a>
+            <span>|</span> <a href="/stud7/user/register" style="color: #1B434A; font-weight: bold;">회원가입</a>
         <% } %>
     </div>
   </header>
@@ -82,7 +83,8 @@
         <% products.forEach(product => { %>
           <div class="product-card">
             <div>
-              <img src="./images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
+              <!-- 🌟 [교정 4]: 하위 라우트 경로에서도 대시보드 이미지가 깨지지 않도록 절대 고정 경로로 보정 -->
+              <img src="/stud7/images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
               <h3><%= product.emoji %> <%= product.name %></h3>
               <p class="desc"><%= product.description %></p>
             </div>
@@ -92,14 +94,14 @@
 
               <!-- 버튼 컴포넌트 세션 -->
               <div class="btn-group">
-                <!-- 🛒 장바구니 담기 폼 -->
-                <form action="/cart/add" method="POST">
+                <!-- 🛒 [교정 5]: 장바구니 담기 요청 주소에 /stud7 주입 -->
+                <form action="/stud7/cart/add" method="POST">
                     <input type="hidden" name="product_id" value="<%= product.id %>">
                     <button type="submit" class="btn-cart">🛒 담기</button>
                 </form>
 
-                <!-- ❤️ 찜하기 폼 -->
-                <form action="/mypage/wish/add" method="POST">
+                <!-- ❤️ [교정 6]: 찜하기 요청 주소에도 /stud7 주입하여 404 예방 -->
+                <form action="/stud7/mypage/wish/add" method="POST">
                     <input type="hidden" name="product_id" value="<%= product.id %>">
                     <button type="submit" class="btn-wish">❤️ 찜</button>
                 </form>
