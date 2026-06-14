@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title><%= product.name %> - 상품 상세보기</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="./stylesheets/style.css">
   <style>
     body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
     .product-container { display: flex; gap: 40px; margin-top: 30px; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 12px; }
@@ -26,13 +26,13 @@
 <body>
 
   <header>
-    <a href="/products" class="back-link">← 상품 목록으로 돌아가기</a>
+    <a href="./products" class="back-link">← 상품 목록으로 돌아가기</a>
   </header>
 
   <main>
     <div class="product-container">
       <div class="product-image">
-        <img src="/images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
+        <img src="./images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>">
       </div>
 
       <div class="product-info">

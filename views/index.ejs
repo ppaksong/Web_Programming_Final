@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title><%= title %></title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="./stylesheets/style.css">
   <style>
     /* 🎨 [메인 기준 공통 스타일] 전체 레이아웃 및 상단 네비게이터 */
     body { font-family: sans-serif; padding: 0; margin: 0; background-color: #f8fafc; color: #334155; }
@@ -36,25 +36,25 @@
 <body>
 
   <header class="main-header">
-    <div class="header-logo"><a href="/"><span>💪</span> PNU PROTEIN & HEALTHCARE <span>💪</span></a></div>
+    <div class="header-logo"><a href="./"><span>💪</span> PNU PROTEIN & HEALTHCARE <span>💪</span></a></div>
     <div class="header-search"><input type="text" placeholder="검색어를 입력하세요..."></div>
     <div class="header-menu">
         <% if (locals.user) { %>
             <span class="user-welcome"><%= user.name %>님</span> 환영합니다!
-            <span>|</span> <a href="/mypage">마이페이지</a>
-            <span>|</span> <a href="/cart">장바구니</a>
-            <span>|</span> <a href="/user/logout" style="color: #ef4444; font-weight: bold;">로그아웃</a>
+            <span>|</span> <a href="./mypage">마이페이지</a>
+            <span>|</span> <a href="./cart">장바구니</a>
+            <span>|</span> <a href="./user/logout" style="color: #ef4444; font-weight: bold;">로그아웃</a>
         <% } else { %>
-            <a href="/user/login">로그인</a>
-            <span>|</span> <a href="/user/register" style="color: #1B434A; font-weight: bold;">회원가입</a> <!-- 메인 컬러 적용 -->
+            <a href="./user/login">로그인</a>
+            <span>|</span> <a href="./user/register" style="color: #1B434A; font-weight: bold;">회원가입</a> <!-- 메인 컬러 적용 -->
         <% } %>
     </div>
   </header>
 
   <div class="container">
     <div style="margin-bottom: 35px; text-align: center; display: flex; justify-content: center; gap: 15px;">
-        <a href="/products" style="padding: 12px 24px; background: #1B434A; color: white; border-radius: 8px; text-decoration: none; font-weight: bold;">🥇 전체 보충제 보러가기 🥇</a> <!-- 메인 컬러 적용 및 텍스트 변경 -->
-        <a href="/board" style="padding: 12px 24px; background: #fff; color: #334155; border: 1px solid #cbd5e1; border-radius: 8px; text-decoration: none; font-weight: bold;">📢 게시판 / 고객센터</a>
+        <a href="./products" style="padding: 12px 24px; background: #1B434A; color: white; border-radius: 8px; text-decoration: none; font-weight: bold;">🥇 전체 보충제 보러가기 🥇</a> <!-- 메인 컬러 적용 및 텍스트 변경 -->
+        <a href="./board" style="padding: 12px 24px; background: #fff; color: #334155; border: 1px solid #cbd5e1; border-radius: 8px; text-decoration: none; font-weight: bold;">📢 게시판 / 고객센터</a>
     </div>
 
     <div style="background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 30px;">
@@ -63,7 +63,7 @@
         <% if (locals.posts && posts.length > 0) { %>
           <% posts.forEach(post => { %>
             <li style="padding: 10px 0; border-bottom: 1px solid #f1f5f9;">
-              <a href="/board/detail/<%= post.id %>" style="color: #334155; text-decoration: none;"><%= post.title %></a>
+              <a href="./board/detail/<%= post.id %>" style="color: #334155; text-decoration: none;"><%= post.title %></a>
             </li>
           <% }) %>
         <% } else { %>
@@ -80,7 +80,7 @@
         <% featuredProducts.forEach(product => { %>
           <div class="product-card">
 
-            <img src="/images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>" style="cursor: default;">
+            <img src="./images/<%= product.image || 'default.jpg' %>" alt="<%= product.name %>" style="cursor: default;">
             <h3 style="margin: 10px 0 5px 0; color: #1e293b; cursor: default;">
               <%= product.emoji %> <%= product.name %>
             </h3>

@@ -33,16 +33,16 @@
   <% } %>
 
   <div class="actions">
-      <a href="/board">← 목록으로 돌아가기</a>
+      <a href="./board">← 목록으로 돌아가기</a>
 
       <% if (user) { %>
-        <a href="/board/reply/<%= post.id %>" style="color: #28a745; font-weight: bold;">[답글 달기]</a>
+        <a href="./board/reply/<%= post.id %>" style="color: #28a745; font-weight: bold;">[답글 달기]</a>
       <% } %>
 
       |
 
       <% if (user && user.username === post.author) { %>
-        <a href="/board/edit/<%= post.id %>" style="color: #007BFF;">수정하기</a>
+        <a href="./board/edit/<%= post.id %>" style="color: #007BFF;">수정하기</a>
 
         <form action="/board/delete/<%= post.id %>" method="POST" style="display: inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
           <button type="submit" class="btn-delete" style="color: #dc3545; background: none; border: none; cursor: pointer; font-size: 1em; font-family: inherit; text-decoration: none;">삭제하기</button>
