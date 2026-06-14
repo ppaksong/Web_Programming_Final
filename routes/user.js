@@ -12,7 +12,6 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    // 👑 1. 최고 관리자 전용 마스터 치트키 로그인 처리
     if (username === 'admin' && password === 'admin') {
         db.get("SELECT * FROM users WHERE username = 'admin'", (err, adminRow) => {
             if (adminRow) {
@@ -41,7 +40,6 @@ router.post('/login', (req, res) => {
         return;
     }
 
-    // 👤 2. 일반 유저 로그인 처리
     db.get("SELECT * FROM users WHERE username = ? AND password = ?", [username, password], (err, row) => {
         if (err) {
             console.error("로그인 DB 에러:", err);
@@ -72,7 +70,7 @@ router.post('/login', (req, res) => {
 });
 
 // ====================================================================
-// 🔍 [신설] 아이디 찾기 엔진 (이름 + 전화번호 기반)
+// 🔍 아이디 찾기 엔진
 // ====================================================================
 router.get('/find-id', (req, res) => {
     res.render('find_id');
@@ -93,13 +91,12 @@ router.post('/find-id', (req, res) => {
         if (!row) {
             return res.send("<script>alert('입력하신 정보와 일치하는 아이디가 존재하지 않습니다.'); history.back();</script>");
         }
-        // 찾기 성공 시 알림창으로 아이디 노출 후 로그인 창으로 이동
         return res.send(`<script>alert('🔍 회원님의 아이디는 [ ${row.username} ] 입니다.'); location.href='/stud7/user/login';</script>`);
     });
 });
 
 // ====================================================================
-// 🔑 [신설] 비밀번호 찾기 엔진 (아이디 + 이름 기반)
+// 🔑 비밀번호 찾기 엔진
 // ====================================================================
 router.get('/find-pw', (req, res) => {
     res.render('find_pw');
@@ -120,7 +117,6 @@ router.post('/find-pw', (req, res) => {
         if (!row) {
             return res.send("<script>alert('입력하신 정보와 일치하는 회원 정보가 없습니다.'); history.back();</script>");
         }
-        // 비밀번호 일치 시 안내 (현재 평문 저장 구조에 맞춤형 설계)
         return res.send(`<script>alert('🔑 회원님의 비밀번호는 [ ${row.password} ] 입니다.'); location.href='/stud7/user/login';</script>`);
     });
 });
