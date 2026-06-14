@@ -2,96 +2,99 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장바구니</title>
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <style>
-        body { font-family: sans-serif; padding: 40px; background-color: #f8fafc; color: #334155; }
-        h2 { margin-bottom: 20px; font-size: 1.8em; color: #1e293b; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
-        ul { list-style: none; padding: 0; }
-        li { margin-bottom: 12px; padding: 15px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .item-info { display: flex; align-items: center; gap: 10px; font-size: 1.1em; }
-        .btn-qty { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .btn-qty:hover { background: #e2e8f0; }
-        .qty-num { font-weight: bold; margin: 0 5px; color: #0f172a; }
-        .btn-delete { background-color: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .btn-delete:hover { background-color: #dc2626; }
-        .total-box { margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 8px; text-align: right; font-size: 1.2em; font-weight: bold; }
-        .nav-links a { display: inline-block; margin-top: 20px; text-decoration: none; color: #2563eb; font-weight: bold; }
-        .nav-links a:hover { text-decoration: underline; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; }
+        .cart-container { max-width: 800px; margin: 0 auto; background: #white; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #eee; padding: 15px; text-align: center; }
+        th { background: #fcfcfc; font-weight: bold; }
+        .total-box { background: #fff9db; border: 1px solid #ffe3e3; padding: 20px; text-align: right; border-radius: 8px; font-size: 1.3em; font-weight: bold; margin-bottom: 30px; }
+        .checkout-section { background: #fdf2e9; border: 1px solid #fbd5b5; padding: 25px; border-radius: 8px; }
+        .checkout-section h3 { margin-top: 0; color: #d9480f; border-bottom: 1px solid #fbd5b5; padding-bottom: 8px; }
+        .form-row { display: flex; align-items: center; margin-bottom: 15px; }
+        .form-row label { width: 120px; font-weight: bold; color: #495057; }
+        .form-row input { flex: 1; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; font-size: 1em; }
+        .btn-order { background: #e67e22; color: white; border: none; padding: 12px 30px; font-size: 1.1em; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.2s; }
+        .btn-order:hover { background: #d35400; }
 
-        /* 🚚 배송 및 결제 섹션 스타일 */
-        .delivery-box { margin-top: 30px; background: #ffffff; padding: 25px; border: 1px solid #cbd5e1; border-radius: 10px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .delivery-box h3 { margin-top: 0; margin-bottom: 20px; color: #0f172a; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: inline-block; width: 110px; font-weight: bold; color: #475569; }
-        .form-input { padding: 8px 12px; width: 300px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.95em; }
-        .form-input:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        .btn-order { background-color: #2563eb; color: white; border: none; padding: 14px 24px; border-radius: 6px; cursor: pointer; font-size: 1.1em; font-weight: bold; width: 100%; margin-top: 15px; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
-        .btn-order:hover { background-color: #1d4ed8; }
+        /* 🌟 상단 헤더 및 홈 버튼 스타일 추가 */
+        .header-wrap { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; margin-bottom: 20px; }
+        .header-wrap h1 { margin: 0; border: none; padding: 0; }
+        .btn-home { background: #e9ecef; color: #495057; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; border: 1px solid #ced4da; transition: 0.2s; }
+        .btn-home:hover { background: #dee2e6; }
     </style>
 </head>
 <body>
 
-<h2>🛒 <%= user.username || user.name || '고객' %>님의 장바구니</h2>
+    <div class="cart-container">
+        <div class="header-wrap">
+            <h1>🛒 내 장바구니 리스트</h1>
+            <a href="/" class="btn-home">🏠 홈으로 가기</a>
+        </div>
 
-<% if (!cartItems || cartItems.length === 0) { %>
-    <p style="padding: 40px 0; text-align: center; color: #64748b; font-size: 1.1em;">장바구니가 비어 있습니다. 맛있는 과일을 담아보세요! 🍎</p>
-<% } else { %>
-    <ul>
-       <% let grandTotal = 0; %>
-       <% cartItems.forEach(item => { %>
-           <% let itemTotal = item.price * item.quantity; %>
-           <% grandTotal += itemTotal; %>
-           <li>
-             <div class="item-info">
-                 <span><%= item.emoji %> <strong><%= item.name %></strong></span>
-                 <span style="color: #64748b; font-size: 0.9em; margin-left: 10px;">(각 ₩<%= item.price.toLocaleString() %>)</span>
-             </div>
+        <% if (cartItems && cartItems.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>상품명</th>
+                        <th>단가</th>
+                        <th>주문 수량</th>
+                        <th>총액</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% let total = 0; %>
+                    <% cartItems.forEach(item => { %>
+                        <% total += (item.price * item.quantity); %>
+                        <tr>
+                            <td><strong><%= item.name %></strong></td>
+                            <td><%= item.price.toLocaleString() %>원</td>
+                            <td><%= item.quantity %>개</td>
+                            <td style="color: #e67e22; font-weight: bold;"><%= (item.price * item.quantity).toLocaleString() %>원</td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
 
-             <div>
-                 <form action="/cart/update" method="POST" style="display: inline; margin-right: 20px;">
-                    <input type="hidden" name="productId" value="<%= item.id %>">
-                    <button type="submit" name="action" value="decrease" class="btn-qty">➖</button>
-                    <span class="qty-num"><%= item.quantity %></span>
-                    <button type="submit" name="action" value="increase" class="btn-qty">➕</button>
-                 </form>
+            <div class="total-box">
+                최종 주문 합계 금액 : <span style="color: #e67e22;"><%= total.toLocaleString() %>원</span>
+            </div>
 
-                 <form action="/cart/delete" method="POST" style="display: inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
-                    <input type="hidden" name="productId" value="<%= item.id %>">
-                    <button type="submit" class="btn-delete">🗑 삭제</button>
-                 </form>
-             </div>
-           </li>
-         <% }) %>
-    </ul>
+            <div class="checkout-section">
+                <h3>🚚 신속 배송 및 수령 정보 입력</h3>
+                <form action="/order/confirm" method="POST">
+                    <div class="form-row">
+                        <label>받으실 분</label>
+                        <input type="text" name="receiver_name" placeholder="홍길동" required>
+                    </div>
+                    <div class="form-row">
+                        <label>연락처(HP)</label>
+                        <input type="text" name="receiver_phone" placeholder="010-1234-5678" required>
+                    </div>
+                    <div class="form-row">
+                        <label>배송 주소지</label>
+                        <input type="text" name="delivery_address" placeholder="물품을 수령할 정확한 배송 주소" required>
+                    </div>
+                    <style>
+                        .form-row input::placeholder { color: #adb5bd; font-size: 0.9em; }
+                    </style>
+                    <div style="margin-top: 20px;">
+                        <button type="submit" class="btn-order">💳 안전하게 결제 및 주문 최종 확정</button>
+                    </div>
+                </form>
+            </div>
 
-    <div class="total-box">
-        총 상품 금액: <span style="color: #e11d48; font-size: 1.3em;">₩<%= grandTotal.toLocaleString() %></span>
+        <% } else { %>
+            <div style="text-align: center; padding: 50px 0; color: #868e96;">
+                <p style="font-size: 3em; margin: 0;">🛒</p>
+                <p style="font-size: 1.2em; margin: 15px 0;">장바구니에 담긴 상품이 없습니다.</p>
+                <a href="/products" style="display: inline-block; background: #e67e22; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">과일 구경하러 가기</a>
+            </div>
+        <% } %>
     </div>
-
-    <div class="delivery-box">
-        <h3>🚚 배송 정보 입력</h3>
-        <form action="/cart/order" method="POST">
-            <div class="form-group">
-                <label for="receiver_name">수령인 이름</label>
-                <input type="text" id="receiver_name" name="receiver_name" class="form-input" placeholder="받으실 분 성함" required>
-            </div>
-            <div class="form-group">
-                <label for="receiver_phone">연락처</label>
-                <input type="text" id="receiver_phone" name="receiver_phone" class="form-input" placeholder="010-0000-0000" required>
-            </div>
-            <div class="form-group">
-                <label for="delivery_address">배송 주소</label>
-                <input type="text" id="delivery_address" name="delivery_address" class="form-input" style="width: 100%; max-width: 500px;" placeholder="정확한 도로명 주소 또는 지번 주소 입력" required>
-            </div>
-
-            <button type="submit" class="btn-order">💳 결제 및 주문 확정하기</button>
-        </form>
-    </div>
-<% } %>
-
-<div class="nav-links">
-    <a href="/products">← 쇼핑 계속하기</a>
-</div>
 
 </body>
 </html>

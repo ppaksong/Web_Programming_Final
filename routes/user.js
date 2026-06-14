@@ -35,7 +35,7 @@ router.post('/login', (req, res) => {
 
             req.session.save((err) => {
                 if (err) console.error(err);
-                return res.send("<script>alert('👑 최고 관리자 치트키 계정으로 로그인이 완료되었습니다.'); location.href='/';</script>");
+                return res.send("<script>alert('👑 최고 관리자 계정으로 로그인이 완료되었습니다. 👑'); location.href='/';</script>");
             });
         });
         return;

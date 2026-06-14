@@ -1,40 +1,68 @@
--- 사용자 테이블
+-- 1. 회원 테이블 (users)
 CREATE TABLE IF NOT EXISTS users (
                                      id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      username TEXT UNIQUE NOT NULL,
                                      password TEXT NOT NULL,
-                                     name TEXT NOT NULL
+                                     name TEXT,
+                                     phone TEXT,
+                                     address TEXT,
+                                     role TEXT DEFAULT 'user',
+                                     status TEXT DEFAULT 'active',
+                                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- 게시글 테이블
+-- 2. 상품 테이블 (products)
+CREATE TABLE IF NOT EXISTS products (
+                                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                        name TEXT NOT NULL,
+                                        description TEXT,
+                                        price INTEGER NOT NULL,
+                                        emoji TEXT,
+                                        image TEXT,
+                                        likes INTEGER DEFAULT 0,
+                                        is_featured INTEGER DEFAULT 0,
+                                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 3. 장바구니 테이블 (cart_items)
+CREATE TABLE IF NOT EXISTS cart_items (
+                                          id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                          user_id TEXT NOT NULL,
+                                          product_id INTEGER NOT NULL,
+                                          quantity INTEGER DEFAULT 1,
+                                          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                          UNIQUE(user_id, product_id)
+    );
+
+-- 4. 게시판/공지사항 테이블 (posts)
 CREATE TABLE IF NOT EXISTS posts (
                                      id INTEGER PRIMARY KEY AUTOINCREMENT,
                                      title TEXT NOT NULL,
                                      content TEXT NOT NULL,
-                                     parent_id INTEGER,
                                      author TEXT NOT NULL,
+                                     view_count INTEGER DEFAULT 0,
                                      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
---  상품목록 테이블
-CREATE TABLE IF NOT EXISTS products (
+-- 5. 위시리스트 테이블 (wishlist)
+CREATE TABLE IF NOT EXISTS wishlist (
                                         id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                        name TEXT NOT NULL,              -- 상품명
-                                        description TEXT,                -- 상품 설명
-                                        price INTEGER NOT NULL,          -- 가격 (원 단위)
-                                        emoji TEXT,                      -- 이모지 (간단한 시각적 표시용)
-                                        image TEXT,                      -- 이미지 파일 경로
-                                        likes INTEGER DEFAULT 0,         -- 선호도 (추천수, 고객클릭수 등)
-                                        is_featured INTEGER DEFAULT 0    -- 오늘의 추천 상품 여부 (1=추천)
-);
+                                        user_id TEXT NOT NULL,
+                                        product_id INTEGER NOT NULL,
+                                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                        UNIQUE(user_id, product_id)
+    );
 
--- 장바구니 테이블
-
-DROP TABLE IF EXISTS cart_items;
-CREATE TABLE cart_items (
-                            user_id INTEGER NOT NULL,
-                            product_id INTEGER NOT NULL,
-                            quantity INTEGER DEFAULT 1,
-                            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                            PRIMARY KEY(user_id, product_id)
+-- 6. 주문 테이블 (orders) 🌟 [에러 완벽 해결 버전]
+CREATE TABLE IF NOT EXISTS orders (
+                                      id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                      user_id TEXT NOT NULL,
+                                      product_id INTEGER,          -- 💡 추가: 주문한 상품의 ID
+                                      quantity INTEGER,            -- 💡 추가: 주문한 상품의 수량
+                                      total_price INTEGER NOT NULL,
+                                      status TEXT DEFAULT '주문완료',
+                                      receiver_name TEXT,
+                                      receiver_phone TEXT,
+                                      delivery_address TEXT,
+                                      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

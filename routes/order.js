@@ -10,11 +10,11 @@ router.post('/confirm', (req, res) => {
 
     const { receiver_name, receiver_phone, delivery_address } = req.body;
 
-    // 🌟 [수정 완료]: cart.js 구조와 일치시키기 위해 user.id 대신 user.username을 바인딩합니다.
+    // 🌟 [수정]: 장바구니 데이터를 긁어올 때 고유 회원 번호(user.id)를 기준으로 바인딩합니다.
     db.all(`
         SELECT c.quantity, p.id as product_id, p.name, p.price
         FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.user_id = ?
-    `, [user.username], (err, items) => {
+    `, [user.id], (err, items) => {
         if (err || !items || items.length === 0) {
             return res.send("<script>alert('장바구니가 비어 있어 주문 진행이 불가합니다.'); location.href='/products';</script>");
         }
@@ -22,11 +22,11 @@ router.post('/confirm', (req, res) => {
         let total_price = 0;
         items.forEach(i => { total_price += (i.price * i.quantity); });
 
-        // 🌟 [수정 완료]: orders 테이블의 user_id 필드에도 마이페이지 연동을 위해 user.username을 저장합니다.
+        // 🌟 [수정]: orders 테이블의 user_id 필드에 고유 식별자인 user.id 번호를 매핑하여 저장합니다.
         db.run(`
             INSERT INTO orders (user_id, total_price, status, receiver_name, receiver_phone, delivery_address)
             VALUES (?, ?, '결제완료', ?, ?, ?)
-        `, [user.username, total_price, receiver_name, receiver_phone, delivery_address], function(err2) {
+        `, [user.id, total_price, receiver_name, receiver_phone, delivery_address], function(err2) {
             if (err2) {
                 console.error("주문 생성 실패:", err2);
                 return res.status(500).send("주문 트랜잭션 수립 실패");
@@ -41,8 +41,8 @@ router.post('/confirm', (req, res) => {
             });
             stmt.finalize();
 
-            // 🌟 [수정 완료]: 주문 완료 후 장바구니를 비울 때도 user.username 기준으로 안전하게 삭제합니다.
-            db.run("DELETE FROM cart_items WHERE user_id = ?", [user.username], (err3) => {
+            // 🌟 [수정]: 결제가 완료되었으므로 로그인한 사용자의 장바구니 항목만 안전하게 비웁니다.
+            db.run("DELETE FROM cart_items WHERE user_id = ?", [user.id], (err3) => {
                 res.send("<script>alert('🎉 결제 및 주문 확정이 정상적으로 완료되었습니다! 마이페이지로 이동합니다.'); location.href='/mypage';</script>");
             });
         });

@@ -172,4 +172,31 @@ router.post('/delete/:id', (req, res) => {
     });
 });
 
+// 📢 관리자 마이페이지에서 보낸 공지사항 데이터 처리 라우터
+router.post('/write', (req, res) => {
+    // 1. 세션에서 관리자 로그인 상태 확인 및 안전장치
+    if (!req.session.user || req.session.user.role !== 'admin') {
+        return res.status(403).send("권한이 없습니다. 관리자만 작성 가능합니다.");
+    }
+
+    // 2. 폼에서 넘어온 제목과 내용 구조분해 할당
+    const { title, content } = req.body;
+    const author = req.session.user.username || 'admin'; // 작성자 이름은 로그인한 관리자 ID
+
+    // 3. 데이터베이스(posts 테이블)에 공지사항 삽입
+    // (만약 board.js 상단에 db 정의가 다르게 되어 있다면 그 변수명을 따르세요. 보통 db 또는 sqliteInstance)
+    const query = `INSERT INTO posts (title, content, author) VALUES (?, ?, ?)`;
+
+    db.run(query, [title, content, author], function(err) {
+        if (err) {
+            console.error("💥 공지사항 등록 중 DB 에러 발생:", err);
+            return res.status(500).send("공지사항을 저장하는 중에 오류가 발생했습니다.");
+        }
+
+        console.log(`✨ 새 공지사항 등록 완료 (ID: ${this.lastID})`);
+        // 4. 성공 시 마이페이지로 깔끔하게 리다이렉트(새로고침 효과)
+        res.redirect('/mypage');
+    });
+});
+
 module.exports = router;

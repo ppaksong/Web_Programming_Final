@@ -3,153 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔓 로그인</title>
+    <title>로그인</title>
     <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        /* 🎨 글로벌 레이아웃 */
+        body { font-family: 'Malgun Gothic', sans-serif; background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); width: 320px; text-align: center; }
+        .login-container h2 { margin-top: 0; color: #212529; font-size: 24px; margin-bottom: 25px; }
+
+        /* 폼 요소 디자인 */
+        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 14px; color: #495057; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-size: 14px; outline: none; transition: border-color 0.2s; }
+        .form-group input:focus { border-color: #1B434A; } /* 입력창 포커스 시 브랜드 컬러 적용 */
+
+        /* 🟦 메인 로그인 버튼 (다크 틸 적용) */
+        .btn-login {
+            width: 100%; padding: 14px; background-color: #1B434A; color: white; border: none;
+            border-radius: 4px; font-size: 16px; font-weight: bold; cursor: pointer;
+            transition: background 0.2s; margin-top: 10px;
         }
-        .login-container {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-            width: 360px;
-        }
-        h2 {
-            text-align: center;
-            color: #1e293b;
-            margin-top: 0;
-            margin-bottom: 28px;
-            font-size: 1.6em;
-            letter-spacing: -0.5px;
-        }
-        .input-group {
-            margin-bottom: 18px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: #475569;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 0.95em;
-            transition: border-color 0.2s;
-        }
-        .input-group input:focus {
-            outline: none;
-            border-color: #2563eb;
-        }
-        .btn-submit {
-            background: #2563eb;
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            border-radius: 6px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.2s;
-        }
-        .btn-submit:hover {
-            background: #1d4ed8;
-        }
-        .find-links {
-            text-align: center;
-            margin-top: 24px;
-            font-size: 0.85em;
-            color: #94a3b8;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 15px;
-        }
-        .find-links a {
-            color: #4b5563;
-            text-decoration: none;
-            margin: 0 6px;
-        }
-        .find-links a:hover {
-            text-decoration: underline;
-            color: #1e293b;
-        }
-        .register-box {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.9em;
-            margin-bottom: 15px;
-        }
-        .register-box a {
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .register-box a:hover {
-            text-decoration: underline;
-        }
-        /* 🏠 홈으로 돌아가기 전용 세련된 스타일 레이아웃 정의 */
-        .home-box {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.85em;
-            border-top: 1px solid #f1f5f9;
-            padding-top: 15px;
-        }
-        .home-box a {
-            color: #64748b;
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-block;
-            transition: color 0.2s;
-        }
-        .home-box a:hover {
-            color: #0f172a;
-            text-decoration: underline;
-        }
+        .btn-login:hover { background-color: #112F34; }
+
+        /* 하단 링크 영역 */
+        .links { margin-top: 20px; font-size: 13px; color: #6c757d; border-top: 1px solid #f1f3f5; padding-top: 20px; }
+        .links a { color: #495057; text-decoration: none; margin: 0 5px; }
+        .links a:hover { text-decoration: underline; }
+
+        /* 회원가입 텍스트 (다크 틸 적용) */
+        .signup-text { margin-top: 15px; font-size: 14px; color: #6c757d; }
+        .signup-text a { color: #1B434A; font-weight: bold; text-decoration: none; }
+        .signup-text a:hover { text-decoration: underline; }
+
+        /* 홈으로 가기 링크 */
+        .home-link { display: block; margin-top: 20px; font-size: 14px; color: #495057; text-decoration: none; border-top: 1px solid #f1f3f5; padding-top: 20px; }
+        .home-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
 <div class="login-container">
-    <h2>🔓 로그인</h2>
-
+    <h2>🔒 로그인</h2>
     <form action="/user/login" method="POST">
-        <div class="input-group">
-            <label for="username">아이디</label>
-            <input type="text" id="username" name="username" placeholder="아이디를 입력하세요" required autocomplete="username">
+        <div class="form-group">
+            <label>아이디</label>
+            <input type="text" name="username" placeholder="아이디를 입력하세요" required>
         </div>
-        <div class="input-group">
-            <label for="password">비밀번호</label>
-            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required autocomplete="current-password">
+        <div class="form-group">
+            <label>비밀번호</label>
+            <input type="password" name="password" placeholder="비밀번호를 입력하세요" required>
         </div>
-        <button type="submit" class="btn-submit">로그인</button>
+        <button type="submit" class="btn-login">로그인</button>
     </form>
 
-    <div class="find-links">
-        <a href="/user/find-id">🔍 아이디 찾기</a> |
-        <a href="/user/find-pw">🔑 비밀번호 찾기</a>
+    <div class="links">
+        <a href="#">🔍 아이디 찾기</a> | <a href="#">🔑 비밀번호 찾기</a>
     </div>
-
-    <div class="register-box">
-        <span style="color: #64748b; font-size: 0.85em;">아직 회원이 아니신가요?</span>
-        <a href="/user/register" style="margin-left: 5px;">🌱 회원가입</a>
+    <div class="signup-text">
+        아직 회원이 아니신가요? <a href="/register">🌱 회원가입</a>
     </div>
-
-    <div class="home-box">
-        <a href="/">🏠 쇼핑몰 홈으로 돌아가기</a>
-    </div>
+    <a href="/" class="home-link">🏠 쇼핑몰 홈으로 돌아가기</a>
 </div>
 
 </body>
