@@ -43,7 +43,8 @@
 
 <div class="login-container">
     <h2>🔒 로그인</h2>
-    <form action="/user/login" method="POST">
+    <!-- 🌟 [교정 1]: 로그인 데이터 전송 경로에 /stud7 배포 경로를 확실하게 주입합니다. -->
+    <form action="/stud7/user/login" method="POST">
         <div class="form-group">
             <label>아이디</label>
             <input type="text" name="username" placeholder="아이디를 입력하세요" required>
@@ -56,12 +57,15 @@
     </form>
 
     <div class="links">
-        <a href="#">🔍 아이디 찾기</a> | <a href="#">🔑 비밀번호 찾기</a>
+        <!-- 🌟 [교정 2]: 아이디/비밀번호 찾기 링크도 백엔드 라우터 주소에 맞게 고정 경로로 안전하게 보정합니다. -->
+        <a href="/stud7/user/find-id">🔍 아이디 찾기</a> | <a href="/stud7/user/find-pw">🔑 비밀번호 찾기</a>
     </div>
     <div class="signup-text">
-        아직 회원이 아니신가요? <a href="./register">🌱 회원가입</a>
+        <!-- 🌟 [교정 3]: 회원가입 링크 주소도 꼬이지 않도록 명확한 전체 경로로 설정합니다. -->
+        아직 회원이 아니신가요? <a href="/stud7/user/register">🌱 회원가입</a>
     </div>
-    <a href="./" class="home-link">🏠 쇼핑몰 홈으로 돌아가기</a>
+    <!-- 🌟 [교정 4]: 홈으로 돌아가기 버튼이 엉뚱한 학교 최상단 루트로 가지 않고 /stud7/ 메인 화면으로 가도록 지정합니다. -->
+    <a href="/stud7/" class="home-link">🏠 쇼핑몰 홈으로 돌아가기</a>
 </div>
 
 </body>
