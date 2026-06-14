@@ -11,12 +11,14 @@
         <% if (typeof error !== 'undefined') { %>
             <p style="color: red; font-weight: bold;"><%= error %></p>
         <% } else { %>
-            <p><%= user.name %>님, 주문이 정상적으로 접수되었습니다.</p>
-            <p>감사합니다! 🍎🍌🍇</p>
+            <!-- locals.user 형태로 안전하게 감싸서 유저 세션이 잠시 풀려도 에러가 나지 않도록 보정했습니다. -->
+            <p><%= locals.user ? user.name : '고객' %>님, 주문이 정상적으로 접수되었습니다.</p>
+            <p>감사합니다! </p>
         <% } %>
 
         <p>
-            <a href="./" class="btn">🏠 홈으로 돌아가기</a>
+            <!-- 🌟 [핵심 교정]: 학교 서버 루트로 튕기거나 order/ 폴더에 갇히지 않고, 쇼핑몰 메인(/stud7/)으로 안전하게 이동하게 합니다. -->
+            <a href="/stud7/" class="btn">🏠 홈으로 돌아가기</a>
         </p>
     </div>
 </body>

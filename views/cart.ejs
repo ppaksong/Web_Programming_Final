@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장바구니</title>
-    <link rel="stylesheet" href="./stylesheets/style.css">
+    <!-- 🌟 [교정 1]: 하위 페이지에서도 스타일시트가 깨지지 않도록 배포 경로 적용 -->
+    <link rel="stylesheet" href="/stud7/stylesheets/style.css">
     <style>
         body { font-family: 'Noto Sans KR', sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; }
         .cart-container { max-width: 800px; margin: 0 auto; background: #white; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
@@ -20,7 +21,7 @@
         .btn-order { background: #e67e22; color: white; border: none; padding: 12px 30px; font-size: 1.1em; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; transition: background 0.2s; }
         .btn-order:hover { background: #d35400; }
 
-        /* 🌟 상단 헤더 및 홈 버튼 스타일 추가 */
+        /* 상단 헤더 및 홈 버튼 스타일 */
         .header-wrap { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; margin-bottom: 20px; }
         .header-wrap h1 { margin: 0; border: none; padding: 0; }
         .btn-home { background: #e9ecef; color: #495057; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-weight: bold; border: 1px solid #ced4da; transition: 0.2s; }
@@ -32,10 +33,11 @@
     <div class="cart-container">
         <div class="header-wrap">
             <h1>🛒 내 장바구니 리스트</h1>
-            <a href="./" class="btn-home">🏠 홈으로 가기</a>
+            <!-- 🌟 [교정 2]: 학교 최상단 루트로 튕기지 않고 쇼핑몰 메인으로 안전하게 복귀하도록 보정 -->
+            <a href="/stud7/" class="btn-home">🏠 홈으로 가기</a>
         </div>
 
-        <% if (cartItems && cartItems.length > 0) { %>
+        <% if (locals.cartItems && cartItems.length > 0) { %>
             <table>
                 <thead>
                     <tr>
@@ -65,18 +67,20 @@
 
             <div class="checkout-section">
                 <h3>🚚 신속 배송 및 수령 정보 입력</h3>
-                <form action="/order/confirm" method="POST">
+                <!-- 🌟 [교정 3]: 구매 확정 처리 시 Nginx 404 차단을 막기 위해 /stud7 경로 주입 -->
+                <form action="/stud7/order/confirm" method="POST">
                     <div class="form-row">
                         <label>받으실 분</label>
-                        <input type="text" name="receiver_name" placeholder="홍길동" required>
+                        <!-- 유저 세션이 있다면 이름이 인풋에 자동 셋팅되도록 편의성을 한 스푼 더했습니다. -->
+                        <input type="text" name="receiver_name" value="<%= locals.user ? user.name : '' %>" placeholder="홍길동" required>
                     </div>
                     <div class="form-row">
                         <label>연락처(HP)</label>
-                        <input type="text" name="receiver_phone" placeholder="010-1234-5678" required>
+                        <input type="text" name="receiver_phone" value="<%= locals.user ? user.phone : '' %>" placeholder="010-1234-5678" required>
                     </div>
                     <div class="form-row">
                         <label>배송 주소지</label>
-                        <input type="text" name="delivery_address" placeholder="물품을 수령할 정확한 배송 주소" required>
+                        <input type="text" name="delivery_address" value="<%= locals.user ? user.address : '' %>" placeholder="물품을 수령할 정확한 배송 주소" required>
                     </div>
                     <style>
                         .form-row input::placeholder { color: #adb5bd; font-size: 0.9em; }
@@ -91,7 +95,8 @@
             <div style="text-align: center; padding: 50px 0; color: #868e96;">
                 <p style="font-size: 3em; margin: 0;">🛒</p>
                 <p style="font-size: 1.2em; margin: 15px 0;">장바구니에 담긴 상품이 없습니다.</p>
-                <a href="./products" style="display: inline-block; background: #e67e22; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">과일 구경하러 가기</a>
+                <!-- 🌟 [교정 4]: 텅 빈 장바구니에서 구경하러 갈 때 주소가 꼬이지 않도록 고정 경로 처리 -->
+                <a href="/stud7/products" style="display: inline-block; background: #e67e22; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">상품 구경하러 가기</a>
             </div>
         <% } %>
     </div>
