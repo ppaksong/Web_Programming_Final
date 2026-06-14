@@ -75,7 +75,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/user', userRouter);
 app.use('/board', boardRouter);
-app.get('/login', (req, res)=> { res.redirect('/user/login'); });
+app.get('/login', (req, res)=> { res.redirect('./user/login'); });
 app.use('/products', productRouter);
 app.use('/cart', cartRouter);
 app.use('/order', orderRouter);

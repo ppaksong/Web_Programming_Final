@@ -35,7 +35,7 @@ router.post('/login', (req, res) => {
 
             req.session.save((err) => {
                 if (err) console.error(err);
-                return res.send("<script>alert('👑 최고 관리자 계정으로 로그인이 완료되었습니다. 👑'); location.href='/';</script>");
+                return res.send("<script>alert('👑 최고 관리자 계정으로 로그인이 완료되었습니다. 👑'); location.href='../../';</script>");
             });
         });
         return;
@@ -66,7 +66,7 @@ router.post('/login', (req, res) => {
 
         req.session.save((err) => {
             if (err) console.error(err);
-            res.send("<script>alert('🔓 로그인이 성공적으로 완료되었습니다.'); location.href='/';</script>");
+            res.send("<script>alert('🔓 로그인이 성공적으로 완료되었습니다.'); location.href='../../';</script>");
         });
     });
 });
@@ -94,7 +94,7 @@ router.post('/find-id', (req, res) => {
             return res.send("<script>alert('입력하신 정보와 일치하는 아이디가 존재하지 않습니다.'); history.back();</script>");
         }
         // 찾기 성공 시 알림창으로 아이디 노출 후 로그인 창으로 이동
-        return res.send(`<script>alert('🔍 회원님의 아이디는 [ ${row.username} ] 입니다.'); location.href='/user/login';</script>`);
+        return res.send(`<script>alert('🔍 회원님의 아이디는 [ ${row.username} ] 입니다.'); location.href='./login';</script>`);
     });
 });
 
@@ -121,7 +121,7 @@ router.post('/find-pw', (req, res) => {
             return res.send("<script>alert('입력하신 정보와 일치하는 회원 정보가 없습니다.'); history.back();</script>");
         }
         // 비밀번호 일치 시 안내 (현재 평문 저장 구조에 맞춤형 설계)
-        return res.send(`<script>alert('🔑 회원님의 비밀번호는 [ ${row.password} ] 입니다.'); location.href='/user/login';</script>`);
+        return res.send(`<script>alert('🔑 회원님의 비밀번호는 [ ${row.password} ] 입니다.'); location.href='./login';</script>`);
     });
 });
 
@@ -129,7 +129,7 @@ router.post('/find-pw', (req, res) => {
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) console.error("로그아웃 세션 파기 실패:", err);
-        res.send("<script>alert('🚪 안전하게 로그아웃 되었습니다.'); location.href='/';</script>");
+        res.send("<script>alert('🚪 안전하게 로그아웃 되었습니다.'); location.href='../../';</script>");
     });
 });
 
@@ -168,7 +168,7 @@ router.post('/register', (req, res) => {
                 console.error("회원 가입 트랜잭션 실패:", err2);
                 return res.status(500).send("회원 등록 처리 실패");
             }
-            res.send("<script>alert('🎉 회원가입이 성공적으로 완료되었습니다! 로그인해 주세요.'); location.href='/user/login';</script>");
+            res.send("<script>alert('🎉 회원가입이 성공적으로 완료되었습니다! 로그인해 주세요.'); location.href='./login';</script>");
         });
     });
 });
